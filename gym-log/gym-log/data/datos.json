@@ -1,0 +1,12 @@
+[
+  {
+    "id": "ejemplo_001",
+    "ejercicio": "Press de banca",
+    "categoria": "Pecho",
+    "series": 4,
+    "repeticiones": 8,
+    "peso": 80,
+    "fecha": "2025-06-01",
+    "notas": "Archivo de ejemplo para opción Fetch (no usado en esta entrega)"
+  }
+]

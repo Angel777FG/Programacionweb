@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GymLog — Bitácora de Entrenamiento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">GymLog</span>
+      </div>
+      <div class="header-stats">
+        <div class="stat-pill" id="totalSesiones">
+          <span class="stat-num">0</span>
+          <span class="stat-label">Sesiones</span>
+        </div>
+        <div class="stat-pill" id="totalEjercicios">
+          <span class="stat-num">0</span>
+          <span class="stat-label">Ejercicios</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <main class="main-layout">
+
+    <!-- COLUMNA IZQUIERDA: FORMULARIO -->
+    <section class="form-panel">
+      <h2 class="panel-title">Nuevo Registro</h2>
+
+      <form id="formEntrenamiento" novalidate>
+
+        <!-- Campo 1: Ejercicio -->
+        <div class="field-group">
+          <label for="ejercicio">Ejercicio</label>
+          <input
+            type="text"
+            id="ejercicio"
+            name="ejercicio"
+            placeholder="Ej: Press de banca, Sentadilla..."
+            autocomplete="off"
+          />
+          <span class="field-error" id="err-ejercicio"></span>
+        </div>
+
+        <!-- Campo 2: Categoría -->
+        <div class="field-group">
+          <label for="categoria">Categoría muscular</label>
+          <select id="categoria" name="categoria">
+            <option value="">— Selecciona —</option>
+            <option value="Pecho">Pecho</option>
+            <option value="Espalda">Espalda</option>
+            <option value="Hombros">Hombros</option>
+            <option value="Bíceps">Bíceps</option>
+            <option value="Tríceps">Tríceps</option>
+            <option value="Piernas">Piernas</option>
+            <option value="Core">Core</option>
+            <option value="Cardio">Cardio</option>
+          </select>
+          <span class="field-error" id="err-categoria"></span>
+        </div>
+
+        <!-- Campo 3 y 4: Series y Repeticiones -->
+        <div class="field-row">
+          <div class="field-group">
+            <label for="series">Series</label>
+            <input
+              type="number"
+              id="series"
+              name="series"
+              placeholder="Ej: 3"
+              min="1"
+              max="20"
+            />
+            <span class="field-error" id="err-series"></span>
+          </div>
+          <div class="field-group">
+            <label for="repeticiones">Reps por serie</label>
+            <input
+              type="number"
+              id="repeticiones"
+              name="repeticiones"
+              placeholder="Ej: 10"
+              min="1"
+              max="100"
+            />
+            <span class="field-error" id="err-repeticiones"></span>
+          </div>
+        </div>
+
+        <!-- Campo 5: Peso -->
+        <div class="field-group">
+          <label for="peso">Peso (kg)</label>
+          <input
+            type="number"
+            id="peso"
+            name="peso"
+            placeholder="Ej: 60 (0 si es peso corporal)"
+            min="0"
+            step="0.5"
+          />
+          <span class="field-error" id="err-peso"></span>
+        </div>
+
+        <!-- Campo 6: Fecha -->
+        <div class="field-group">
+          <label for="fecha">Fecha de entrenamiento</label>
+          <input
+            type="date"
+            id="fecha"
+            name="fecha"
+          />
+          <span class="field-error" id="err-fecha"></span>
+        </div>
+
+        <!-- Campo 7: Notas -->
+        <div class="field-group">
+          <label for="notas">Notas <span class="optional">(opcional)</span></label>
+          <input
+            type="text"
+            id="notas"
+            name="notas"
+            placeholder="Sensaciones, técnica, PR..."
+            maxlength="120"
+          />
+          <span class="char-counter" id="char-notas">0 / 120</span>
+          <span class="field-error" id="err-notas"></span>
+        </div>
+
+        <!-- Barra de progreso de formulario -->
+        <div class="form-progress-wrap">
+          <div class="form-progress-bar" id="formProgressBar"></div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnSubmit">
+          <span class="btn-icon">+</span> Agregar ejercicio
+        </button>
+
+      </form>
+    </section>
+
+    <!-- COLUMNA DERECHA: REGISTROS -->
+    <section class="records-panel">
+      <div class="records-header">
+        <h2 class="panel-title">Bitácora</h2>
+        <div class="filter-group">
+          <select id="filtroCategoria">
+            <option value="">Todas las categorías</option>
+            <option value="Pecho">Pecho</option>
+            <option value="Espalda">Espalda</option>
+            <option value="Hombros">Hombros</option>
+            <option value="Bíceps">Bíceps</option>
+            <option value="Tríceps">Tríceps</option>
+            <option value="Piernas">Piernas</option>
+            <option value="Core">Core</option>
+            <option value="Cardio">Cardio</option>
+          </select>
+          <button id="btnLimpiarTodo" class="btn-danger-sm" disabled>
+            🗑 Limpiar todo
+          </button>
+        </div>
+      </div>
+
+      <!-- Estado vacío -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🏋️</div>
+        <p class="empty-title">Sin registros aún</p>
+        <p class="empty-sub">Agrega tu primer ejercicio para comenzar la bitácora.</p>
+      </div>
+
+      <!-- Lista de registros -->
+      <ul class="registro-list" id="registroList"></ul>
+
+    </section>
+  </main>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
